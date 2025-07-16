@@ -30,8 +30,10 @@ uploaded_file = st.file_uploader("Upload a PDF to chat with it", type=["pdf"])
 def extract_text_from_pdf(pdf_path):
     pdf_reader = PdfReader(pdf_path)
     document_text = ""
-    if len(pdf_reader.pages) > 0:  # Check if the PDF has at least one page
-        document_text = pdf_reader.pages[0].extract_text()  # Extract text from the first page
+    for page in pdf_reader.pages:
+        text=page.extract_text()
+        if text:
+            document_text += text + "\n"
     return document_text
 
 # --- Process PDF and Generate Embeddings ---
